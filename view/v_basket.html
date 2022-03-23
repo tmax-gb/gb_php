@@ -1,0 +1,114 @@
+{% extends 'v_main.html' %}
+
+{% block content %}
+<div class="container p-3">
+  
+  {% if status %}
+
+    <div class="alert alert-success mt-3" role="alert">Еще ничего не добавлено.</div>
+
+  {% else %} 
+    <table class="table mt-3" style="text-align: center;">
+      <thead>
+        <tr>
+          <th scope="col">Товар</th>
+          <th scope="col">Цена</th>
+          <th scope="col">Количество</th>
+          <th scope="col">Итого</th>
+          <th scope="col">Удалить из корзины</th>
+        </tr>
+      </thead>
+      <tbody >
+      {% for userGood in userBasket %}
+        <tr id="tr{{ userGood.id_good }}">
+
+          <td class="align-middle" scope="row">
+            <div class="container">
+                <div class="row align-items-center d-flex justify-content-center">
+              <img src="{{ userGood.path }}" width=60 height=60 alt="{{ userGood.path }}"> 
+              <h5 class="card-title ml-3">{{ userGood.good_name }}</h5>
+                </div>
+            </div>
+            
+          </td>
+
+          <td class="align-middle">
+            <p class="card-text">{{ userGood.good_price }} $</p>
+          </td>
+
+          <td class="align-middle">
+            <div class="d-flex justify-content-center">
+              <button data-id="{{ userGood.id_good }}" onclick="new ProductAction" class="buy-btn btn btn-sm btn-light">+</button>
+              <p class="card-text m-2" id="q{{ userGood.id_good }}">{{ userGood.quantity }} шт.</p>
+              <button data-id="{{ userGood.id_good }}" onclick="new ProductAction" class="del-btn btn btn-sm btn-light">-</button>
+            </div>
+          </td>
+
+          <td class="align-middle">
+            <p class="card-text" id="p{{ userGood.id_good }}">{{ userGood.total_price }} $</p>
+          </td>
+
+          <td class="align-middle">
+            <button data-id="{{ userGood.id_good }}" onclick="new ProductAction" class="remove-btn btn btn-danger">&times;</button>
+          </td>
+        </tr>
+      {% endfor %}
+         
+        <tr>
+          <th colspan="4" scope="row">
+            <h5 class="card-title basket-amount" style="text-align: right;">Сумма заказа: {{ amountOrder.amount_order }} $</h5>
+          </th>
+          </tr> 
+      </tbody>
+    </table>
+
+    <div class="d-flex justify-content-center">
+      <button class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Сделать заказ</button>
+    </div>
+    
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Подтверждение заказа</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h4 class="order-amount">Cумма вашего заказа составляет: {{ amountOrder.amount_order }} $</h4>
+            <form method="post" action="index.php?act=sendOrder&c=basket">
+              {% if not user %}
+              
+                <p>Заполните необходимую информацию для звязи с Вами или <a href="index.php?act=auth">авторизуйтесь</a>/<a href="index.php?act=reg">зарегистрируйтесь</a></p>
+              
+                <div class="form-row">
+                  <div class="col">
+                    <input type="text" class="form-control data-ord" id="oun" name="userName" placeholder="Имя">
+                  </div>
+                  <div class="col">
+                    <input type="text" class="form-control data-ord" id="oup" name="userPhone" placeholder="Телефон">
+                  </div>
+                </div>
+              
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+            <button type="submit" id="btn-accept" class="btn btn-primary" disabled>Подтвердить</button>
+          </div>
+          {% else %}
+          
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+            <button type="submit" class="btn btn-primary">Подтвердить</button>
+          </div>
+          {% endif %}
+            </form>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  
+</div>
+
+{% endblock %}

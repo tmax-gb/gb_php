@@ -1,0 +1,50 @@
+{% extends 'v_main.html' %}
+
+{% block content %}
+
+<div class="container">
+  {% if user %}
+      
+      <div class="alert alert-success mt-3" role="alert">Вы уже авторизованы.</div>
+
+  {% else %}
+
+    {% if not status %}
+
+      <div class="alert alert-success mt-3" role="alert">Войдите, используя логин и пароль.</div>
+
+    {% elseif status is same as (3) %}
+
+      <div class="alert alert-danger mt-3" role="alert">Необходимо заполнить все поля.</div>
+    
+    {% elseif status is same as (2) %}
+
+      <div class="alert alert-danger mt-3" role="alert">Такого пользователя не существует.</div>
+
+    {% elseif status is same as (1) %}
+
+      <div class="alert alert-danger mt-3" role="alert">Введен неверный пароль</div>
+
+    {% endif %} 
+
+    
+    <form method="post" action="index.php?act=auth&c=user">
+      <div class="form-group">
+        <label for="login">Логин</label>
+        <input type="text" name="login" class="form-control" id="login"  placeholder="Введите логин">
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Пароль</label>
+        <input type="password" name="password" class="form-control" id="password" placeholder="Введите пароль">
+        
+      </div>
+      
+      <button type="submit" class="btn btn-primary">Войти</button>
+    </form>
+
+  {% endif %}
+
+</div>
+
+{% endblock %}

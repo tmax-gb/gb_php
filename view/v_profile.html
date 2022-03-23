@@ -1,0 +1,61 @@
+{% extends 'v_main.html' %}
+
+{% block content %}
+
+<div class="container">
+  {% if user %}
+
+    {% if status is same as (1) %}
+      <div class="alert alert-info mt-3" role="alert">Имя изменено</div>
+    {% elseif status is same as (2) %}
+      <div class="alert alert-warning mt-3" role="alert">Необходимо что-то ввести</div>
+    {% endif %}
+
+      <form method="post" action="index.php?act=prof&c=user">
+      
+
+      <div class="input-group mt-5">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Ваше имя: {{ userName }}</span>
+        </div>
+      <input type="text" class="form-control" name="userName" placeholder="Введите другое имя">
+      <button type="submit" class="btn btn-primary">Изменить имя</button>
+      </div>
+
+      </form>
+    {% if isOrder %}
+      <div class="d-flex justify-content-center mt-5">
+        <h3>История заказов</h3>
+      </div>
+      <table class="table mt-3">
+        <thead>
+          <tr>
+            <th scope="col"># заказа</th>
+            <th scope="col">Сумма</th>
+            <th scope="col">Дата и время</th>
+            <th scope="col">Статус</th>
+          </tr>
+        </thead>
+        <tbody>
+      {% for order in userOrders %}
+        <tr>
+          <th scope="row">{{ order.id_order }}</th>
+          <td><h5 class="card-title">{{ order.amount_order }} $</h5></td>
+          <td><p class="card-text">{{ order.data_create_order }}</p></td>
+          <td><p class="card-text">{{ order.order_status }}</p></td>
+
+        </tr>
+      {% endfor %} 
+        </tbody>
+      </table>
+    {% else %} 
+      <div class="alert alert-info mt-3" role="alert">У Вас еще нет заказов.</div>
+    {% endif %} 
+      
+    
+  {% else %} 
+    <div class="alert alert-info mt-3" role="alert">Вы не авторизованы! Авторизуйтесь или зарегистрируйтесь.</div>
+  {% endif %} 
+</div>
+
+{% endblock %}

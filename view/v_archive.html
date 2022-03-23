@@ -1,0 +1,87 @@
+{% extends 'v_main.html' %}
+
+{% block content %}
+<div class="container p-3">
+  
+    {% if status %}
+  
+      <div class="alert alert-success mt-3" role="alert">В архиве нет товаров.</div>
+  
+    {% else %} 
+      <table class="table mt-3" style="text-align: center;">
+        <thead>
+          <tr>
+            <th scope="col">Товар</th>
+            <th scope="col">Загрузить изображения</th>
+            <th scope="col">Цена</th>
+            <th scope="col">Описание</th>
+            <th scope="col">Выбрать действие</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for good in goods %}
+          <tr id="tr{{ good.id_good }}">
+  
+            <td class="align-middle" scope="row">
+              <div class="container">
+                  <div class="row align-items-center d-flex justify-content-center">
+                <img src="{{ good.path }}" width=60 height=60 alt="img"> 
+                <h5 class="card-title ml-3"><input type="text" id="nameGood{{ good.id_good }}" value="{{ good.good_name }}"></input></h5>
+                  </div>
+              </div>
+              
+            </td>
+
+            <td class="align-middle">
+                <input class="filesGood"  type="file" id="file" multiple></input>
+            </td>
+  
+            <td class="align-middle">
+              <p class="card-text"><input type="text" id="priceGood{{ good.id_good }}" value="{{ good.good_price }}"></input> $</p>
+            </td>
+
+            <td class="align-middle">
+                <p class="card-text"><textarea id="descGood{{ good.id_good }}">{{ good.good_description }}</textarea></p>
+              </td>
+  
+            <td class="align-middle">
+              <div>
+                <button data-id="{{ good.id_good }}" data-ar="true" data-btn="rem-btn" onclick="new BtnAction" class="btn btn-primary">Вернуть в каталог</button>
+                <button id="ch_btn_{{ good.id_good }}" data-id="{{ good.id_good }}" data-btn="ch-btn" onclick="new BtnAction" class="btn btn-success">Изменить товар</button>
+                <button data-id="{{ good.id_good }}" data-btn="del-btn" onclick="new BtnAction" class="btn btn-danger">Удалить товар</button>
+              </div>
+            </td>
+        
+          </tr>
+          
+        {% endfor %}
+        </tbody>
+      </table>
+
+    {% endif %}
+</div>
+<div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="card text-center">
+                <div class="card-body d-flex">
+                  <div class="w-50">
+                    <img src="https://placehold.it/350x200" class="card-img-top" width=500 height=500 alt="img">
+                  </div>
+                  <div>
+                    <label for="file">Загузить изображения</label>
+                    <input class="filesGood"  type="file" id="file" multiple></input>
+                    <h5 class="card-title">Название товара <input type="text" class="nameGood" placeholder="Введите название товара"></input></h5>
+                    <p class="card-text">Цена: <input type="text" class="priceGood" placeholder="Введите цену товара"></input> $</p>
+                    <p class="card-text">Краткое описание <textarea class="descGood" placeholder="Введите краткое описание товара"></textarea></p>
+                    <p class="card-text">Подробное описание <textarea class="card-text" placeholder="Введите полное описание товара"></textarea></p>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <button id="add_good_btn" data-btn="add-btn" onclick="new BtnAction" class="buy-btn btn btn-success">Добавить товар</button>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+{% endblock %}

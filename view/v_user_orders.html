@@ -1,0 +1,80 @@
+{% extends 'v_main.html' %}
+
+{% block content %}
+<div class="container p-3">
+  
+    {% if status %}
+  
+      <div class="alert alert-success mt-3" role="alert">Пока заказов нет</div>
+  
+    {% else %} 
+
+    <table class="table mt-3">
+            <thead>
+              <tr>
+                <th scope="col"># заказа</th>
+                <th scope="col">Имя пользователя</th>
+                <th scope="col">Телефон</th>
+                <th scope="col">Сумма</th>
+                <th scope="col">Дата и время</th>
+                <th scope="col">Статус</th>
+                <th scope="col">Выбрать статус</th>
+                <th scope="col">Подтвердить</th>
+              </tr>
+            </thead>
+            <tbody>
+          {% for order in orders %}
+            <tr>
+              <th scope="row">{{ order.id_order }}</th>
+              <td><h5 class="card-title">{{ order.user_name }}</h5></td>
+              <td><h5 class="card-title">{{ order.user_phone }}</h5></td>
+              <td><h5 class="card-title">{{ order.amount_order }} $</h5></td>
+              <td><p class="card-text">{{ order.data_create_order }}</p></td>
+              <td><p class="card-text" id="stat_{{ order.id_order }}">{{ order.order_status }}</p></td>
+
+              <td>
+                  <select id="order_status_{{ order.id_order }}">
+                      <option value="2">Принят</option>
+                      <option value="3">Выполнен</option>
+                      <option value="4">Отменен</option>
+                  </select>
+              </td>
+
+              <td>
+                  <div>
+                    <button id="ch_btn_{{ order.id_order }}" data-id="{{ order.id_order}}" data-btn="ch-stat-btn" onclick="new BtnAction" class="btn btn-success">Изменить статус</button>
+                  </div>
+              </td>
+    
+            </tr>
+          {% endfor %} 
+            </tbody>
+          </table>
+
+    {% endif %}
+</div>
+<div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="card text-center">
+                <div class="card-body d-flex">
+                  <div class="w-50">
+                    <img src="https://placehold.it/350x200" class="card-img-top" width=500 height=500 alt="img">
+                  </div>
+                  <div>
+                    <label for="file">Загузить изображения</label>
+                    <input class="filesGood"  type="file" id="file" multiple></input>
+                    <h5 class="card-title">Название товара <input type="text" class="nameGood" placeholder="Введите название товара"></input></h5>
+                    <p class="card-text">Цена: <input type="text" class="priceGood" placeholder="Введите цену товара"></input> $</p>
+                    <p class="card-text">Краткое описание <textarea class="descGood" placeholder="Введите краткое описание товара"></textarea></p>
+                    <p class="card-text">Подробное описание <textarea class="card-text" placeholder="Введите полное описание товара"></textarea></p>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <button id="add_good_btn" data-btn="add-btn" onclick="new BtnAction" class="buy-btn btn btn-success">Добавить товар</button>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+{% endblock %}

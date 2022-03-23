@@ -1,0 +1,19 @@
+{% extends 'v_main.html' %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="alert alert-success mt-3" role="alert">
+        <h3>Ваш заказ подтвержден!</h3>
+        {% if user %}
+            <a href="index.php?act=prof" class="btn btn-secondary btn-lg" role="button">Посмотреть информацию о заказе</a>
+        {% else %}
+            <h4>Чтобы посмотреть информацию о заказе - <a href="index.php?act=auth">авторизуйтесь</a> или <a href="index.php?act=reg">зарегистрируйтесь</a></h4>
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock %}
+
